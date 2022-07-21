@@ -1,0 +1,11 @@
+{
+    "prettier.endOfLine": "auto",
+    "prettier.requireConfig": true,
+    "html.format.enable": true,
+    "html.format.indentHandlebars": true,
+    "html.format.wrapAttributes": "force-aligned",
+    "html.format.wrapLineLength": 0,
+    "prettier.printWidth": 0,
+    "prettier.proseWrap": "always",
+    "prettier.singleQuote": true
+}
