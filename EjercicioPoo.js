@@ -1,9 +1,10 @@
+// Ejercicio de practica de POO
 const  formulario = document.querySelector('#formulario')
 const cardsEstudiantes  = document.querySelector('#cardsEstudiantes')
 const cardsProfesores = document.querySelector('#cardsProfesores')
 const templateEstudiante = document.querySelector('#templateEstudiante').content 
 const templateProfesor = document.querySelector('#templateProfesor').content
-
+const alert = document.querySelector('.alert')
 
 const estudiantes = [];
 const profesores = [];
@@ -11,11 +12,12 @@ const profesores = [];
 document.addEventListener('click', e => {
     // console.log(e.target)
     //  console.log(e.target.dataset.nombre);
-    if (e.target.dataset.nombre){
+    if (e.target.dataset.uid){
         // console.log(e.target.matches('.btn-success'));
         if(e.target.matches('.btn-success')){
             estudiantes.map(item => {
-                if (item.nombre === e.target.dataset.nombre){
+                if (item.uid === e.target.dataset.uid){
+                  
                     item.setEstado = true;
                 }
                 console.log(item)
@@ -24,14 +26,14 @@ document.addEventListener('click', e => {
         }
         if(e.target.matches('.btn-danger')){
              estudiantes.map(item => {
-                if (item.nombre === e.target.dataset.nombre){
+                if (item.uid === e.target.dataset.uid){
                     item.setEstado = false
                 }
                 console.log(item)
                 return item
             });
         }
-        Persona.pintarPersonaUI(estudiantes, 'Estudiante')
+        Persona.pintarPersonaUI(estudiantes, 'Estudiante');
     }
 })
 
@@ -39,6 +41,7 @@ class Persona {
     constructor(nombre, edad) {
         this.nombre = nombre
         this.edad = edad 
+        this.uid = `${Date.now()}`;
     }
     static pintarPersonaUI(personas, tipo) {
         if (tipo === "Estudiante"){
@@ -91,8 +94,8 @@ class Estudiante extends Persona{
     }
         clone.querySelector('.badge').textContent = this.#estado ? 'Aprobado' : 'Reprobado'
         
-        clone.querySelector('.btn-success').dataset.nombre = this.nombre
-        clone.querySelector('.btn-danger').dataset.nombre = this.nombre
+        clone.querySelector('.btn-success').dataset.uid = this.uid;
+        clone.querySelector('.btn-danger').dataset.uid = this.uid;
     return clone
    }
 }
@@ -111,10 +114,18 @@ class Estudiante extends Persona{
  formulario.addEventListener('submit', (e) => {
     e.preventDefault();
 
+    alert.classList.add('d-none');
+      
     const datos = new FormData(formulario);
     const [nombre, edad, opcion] = [...datos.values()];
     // console.log(nombre, edad, opcion);
     //datos.forEach((item) => console.log(item));
+
+    if (!nombre.trim() || !edad.trim() || !opcion.trim()){
+        console.log('algun dato en blanco');
+        alert.classList.remove('d-none');
+        return;
+    }
 
     if (opcion === 'Estudiante'){
         const estudiante = new Estudiante(nombre, edad);
@@ -133,3 +144,6 @@ class Estudiante extends Persona{
     // estudiantes.push(estudiante);
     // // console.log(estudiantes);
 })
+
+
+
